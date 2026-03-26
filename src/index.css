@@ -1,0 +1,25 @@
+/* Tar bort Vites standard dark mode och centrering */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Enkel vit bakgrund istället för mörk */
+body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Ljust läge (standard) */
+body {
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode för hela sidan */
+body.dark {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
