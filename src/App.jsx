@@ -15,9 +15,35 @@ function App() {
   const getTotalLoans = (item) => item.totalLoans ?? item.TotalLoans ?? 0;
   const getLateReturns = (item) => item.lateReturns ?? item.LateReturns ?? 0;
 
+  // Hämtar basadressen till API:t från Vite-miljövariabler.
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
-    fetch("http://localhost:5125/api/loans/stats")
-      .then((response) => response.json())
+    // Hämtar värden från .env
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+    const apiKey = import.meta.env.VITE_API_KEY;
+
+    // Skriver ut så vi ser att Vite faktiskt läser .env
+    console.log("API Base URL:", apiBaseUrl);
+    console.log("API Key finns:", !!apiKey);
+
+    fetch(`${apiBaseUrl}/api/loans/stats`, {
+      headers: {
+        "X-Api-Key": apiKey,
+      },
+    })
+      .then(async (response) => {
+        console.log("Statuskod:", response.status);
+
+        const text = await response.text();
+        console.log("Rått svar från API:", text);
+
+        if (!response.ok) {
+          throw new Error(`API-fel ${response.status}: ${text}`);
+        }
+
+        return JSON.parse(text);
+      })
       .then((data) => {
         console.log("Data från API:", data);
         setStats(data);
